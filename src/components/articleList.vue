@@ -5,7 +5,7 @@
 		</div>
 		<div class="article_list">
 			<ul>
-				<li v-for="item in articleList" :class="{'have-img':item.img}">
+				<li v-for="item in dataList" :class="{'have-img':item.img}">
 					<a v-if="item.img" class="wrap-img" href="">
 				      <img :src="item.img" class="img-responsive">
 				    </a>
@@ -31,42 +31,47 @@
 
 <script>
 export default{
-	data(){
-		return {
-			articleList:[{
-				title:'这是文章标题',
-				author:'张三',
-				img:'//upload-images.jianshu.io/upload_images/5912302-4df2bf6c946340f0.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/246/h/246',
-				time:'前天',
-				pv:20,
-				points:30,
-			},{
-				title:'这是文章标题',
-				author:'张三',
-				time:'前天',
-				pv:20,
-				points:30,
-			},{
-				title:'这是文章标题',
-				author:'张三',
-				time:'前天',
-				pv:20,
-				points:30,
-			},{
-				title:'这是文章标题',
-				author:'张三',
-				time:'前天',
-				pv:20,
-				points:30,
-			},{
-				title:'这是文章标题',
-				author:'张三',
-				time:'前天',
-				pv:20,
-				points:30,
-			}]
-		}
-	}
+	props:{
+	  	dataList:{
+	  		type:Array
+	  	}
+	},
+//	data(){
+//		return {
+//			articleList:[{
+//				title:'这是文章标题',
+//				author:'张三',
+//				img:'//upload-images.jianshu.io/upload_images/5912302-4df2bf6c946340f0.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/246/h/246',
+//				time:'前天',
+//				pv:20,
+//				points:30,
+//			},{
+//				title:'这是文章标题',
+//				author:'张三',
+//				time:'前天',
+//				pv:20,
+//				points:30,
+//			},{
+//				title:'这是文章标题',
+//				author:'张三',
+//				time:'前天',
+//				pv:20,
+//				points:30,
+//			},{
+//				title:'这是文章标题',
+//				author:'张三',
+//				time:'前天',
+//				pv:20,
+//				points:30,
+//			},{
+//				title:'这是文章标题',
+//				author:'张三',
+//				time:'前天',
+//				pv:20,
+//				points:30,
+//			}]
+//		}
+//	}
 }
 
 	

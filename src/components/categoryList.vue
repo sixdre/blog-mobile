@@ -8,7 +8,7 @@
 			</span>
 		</div>
 		<div class="collection-groups">
-			<a v-for="item in categoryList" class="collection">{{item}}</a>
+			<a v-for="item in dataList" class="collection">{{item.name}}</a>
 		</div>
 	</div>
 </template>
@@ -16,12 +16,16 @@
 <script>
 	
 export default{
-	
-	data(){
-		return {
-			categoryList:['短篇小说','连载小说','故事']
-		}
-	}
+	props:{
+	  	dataList:{
+	  		type:Array
+	  	}
+	},
+//	data(){
+//		return {
+//			categoryList:['短篇小说','连载小说','故事']
+//		}
+//	}
 }
 
 	
