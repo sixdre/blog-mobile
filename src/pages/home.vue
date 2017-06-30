@@ -19,7 +19,7 @@ export default{
 	},
 	created() {
 		this.getData();
-		this.getArticles();
+		this.getCategories();
 	},
 	data(){
 		return {
@@ -28,7 +28,7 @@ export default{
 		}
 	},
 	methods:{
-		getData(){		//获取数据
+		async getData(){		//获取数据
 			axios.get('/api/articles').then((res) => {
 			 	let data=res.data;
 			 	console.log(data);
@@ -37,7 +37,7 @@ export default{
 			 	}
 		    });
 		},
-		getArticles(){
+		async getCategories(){
 			axios.get('/api/category').then((res) => {
 			 	let data=res.data;
 			 	console.log(data);
