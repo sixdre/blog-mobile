@@ -1,8 +1,22 @@
-# blog-mobile
+# 
+# 博客系统 移动端
 
-> blog mobile
+> 项目采用Vue2.0
 
-## Build Setup
+
+# 说明
+
+>  如果对您对此项目有兴趣，可以点 "Star" 支持一下 谢谢！ ^_^
+
+>  部署环境 阿里云 CentOS 7.2 64位 
+
+
+## 技术栈
+
+nodejs + express + Vue2 + Vue-router + Vuex + webpack + es6/7 + babel
+
+
+# 项目启动
 
 ``` bash
 # install dependencies
@@ -26,5 +40,6 @@ npm run e2e
 # run all tests
 npm test
 ```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+# 相关项目
+[Node服务端](https://github.com/sixdre/blog-node)
+[后台管理项目地址](https://github.com/sixdre/blog-manage)
