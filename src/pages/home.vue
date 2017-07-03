@@ -1,12 +1,13 @@
 <template>
-	<div>
+	<div ref="main">
 		<category-list :dataList="categoryList"></category-list>
 		<div class="split-line"></div>
-		<article-list :dataList="articleList"></article-list>
+		<article-list></article-list>
 	</div>
 </template>
 
 <script>
+import BSscroll from 'better-scroll'
 import categoryList from '@/components/categoryList'	
 import articleList from '@/components/articleList'
 import axios from 'axios'
@@ -15,10 +16,9 @@ export default{
 	components:{
 		'categoryList':categoryList,
 		'articleList':articleList
-	
 	},
 	created() {
-		this.getData();
+//		this.getData();
 		this.getCategories();
 	},
 	data(){
@@ -28,19 +28,10 @@ export default{
 		}
 	},
 	methods:{
-		async getData(){		//获取数据
-			axios.get('/api/articles').then((res) => {
-			 	let data=res.data;
-			 	console.log(data);
-			 	if(data.code==1){
-			 		this.articleList=res.data.articles;
-			 	}
-		    });
-		},
+		
 		async getCategories(){
 			axios.get('/api/category').then((res) => {
 			 	let data=res.data;
-			 	console.log(data);
 			 	if(data.code==1){
 			 		this.categoryList=res.data.categorys;
 			 	}

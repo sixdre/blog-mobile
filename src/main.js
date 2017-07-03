@@ -3,7 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import moment from 'moment'
 import '../static/js/rem'
+import './filter/time'
+
 
 Vue.config.productionTip = false
 

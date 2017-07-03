@@ -3,8 +3,8 @@
 		<div class="top-title">
 			<span>热门文章</span>
 		</div>
-		<div class="article_list">
-			<ul>
+		<div class="article_list" ref="article_wrapper" style="height: 200px;position: relative;">
+			<ul class="content">
 				<li v-for="item in dataList" :class="{'have-img':item.img}">
 					<a v-if="item.img" class="wrap-img" href="">
 				      <img :src="item.img" class="img-responsive">
@@ -13,14 +13,15 @@
 						<div class="author">
 							<div class="name">
 								<a class="blue-link" href="javascript:;">{{item.author}}</a>
-								<span class="time">{{item.time}}</span>
+								<span class="time">{{item.create_time | fromNow}}</span>
 							</div>
 						</div>
 						<a class="title" href="">{{item.title}}</a>
-			
 						<div class="meta">
-							<a class="fa fa-eye"> {{item.pv}}</a> 
-							<a class="fa fa-thumbs-o-up"> {{item.points}}</a>
+							<a class="tag">{{item.category.name}}</a>
+							<span>阅读 {{item.pv}}</span>
+							<span>评论 {{item.nums.cmtNum}}</span>
+							<span>喜欢 {{item.likes.length}}</span>
 						</div>
 					</div>
 				</li>
@@ -30,48 +31,44 @@
 </template>
 
 <script>
+import axios from 'axios'
+import BSscroll from 'better-scroll'
+
 export default{
-	props:{
-	  	dataList:{
-	  		type:Array
-	  	}
+//	props:{
+//	  	dataList:{
+//	  		type:Array
+//	  	}
+//	},
+	data(){
+		return{
+			dataList:[]
+		}
 	},
-//	data(){
-//		return {
-//			articleList:[{
-//				title:'这是文章标题',
-//				author:'张三',
-//				img:'//upload-images.jianshu.io/upload_images/5912302-4df2bf6c946340f0.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/246/h/246',
-//				time:'前天',
-//				pv:20,
-//				points:30,
-//			},{
-//				title:'这是文章标题',
-//				author:'张三',
-//				time:'前天',
-//				pv:20,
-//				points:30,
-//			},{
-//				title:'这是文章标题',
-//				author:'张三',
-//				time:'前天',
-//				pv:20,
-//				points:30,
-//			},{
-//				title:'这是文章标题',
-//				author:'张三',
-//				time:'前天',
-//				pv:20,
-//				points:30,
-//			},{
-//				title:'这是文章标题',
-//				author:'张三',
-//				time:'前天',
-//				pv:20,
-//				points:30,
-//			}]
-//		}
-//	}
+	created() {
+		this.getData().then(()=>{
+			this.$nextTick(() => {
+				console.log(document.getElementsByClassName('article_list')[0])
+			    this.initScroll();
+			})
+		
+		})
+	},
+	methods:{
+		initScroll() {
+			new BSscroll(this.$refs.article_wrapper,{
+				click:true
+			})
+		},
+		async getData(){		//获取数据
+			axios.get('/api/articles',{params:{limit:20}}).then((res) => {
+			 	let data=res.data;
+			 	if(data.code==1){
+			 		this.dataList=res.data.articles;
+			 	}
+		    });
+		},
+	}
 }
 
 	
@@ -90,7 +87,7 @@ export default{
     word-wrap: break-word;
 }
 .article_list .content{
-	padding: 32px 0;
+	padding: 20px 0;
 }
 .article_list .have-img .wrap-img {
     position: absolute;
@@ -110,12 +107,16 @@ export default{
     padding-right: 100px;
 }
 .article_list .author {
-    margin-bottom: 14px;
-    font-size: 13px;
+    /*margin-bottom: 14px;*/
+    font-size: 12px;
 }
 .article_list .author .avatar, .note-list .author .name {
     display: inline-block;
     vertical-align: middle;
+}
+.article_list .author .time{
+	font-size: 10px;
+	color: #999;
 }
 .article_list .author .avatar {
     margin: 0 5px 0 0;
@@ -130,11 +131,12 @@ export default{
     cursor: pointer;
 }
 .article_list .title {
-    margin: -7px 0 4px;
+    /*margin: -7px 0 4px;*/
     display: inherit;
     font-size: 18px;
-    font-weight: 700;
-    line-height: 1.5;
+    font-weight: 600;
+    padding: 13px 0;
+    /*line-height: 2.5;*/
     color: #333;
 }
 .article_list .author .name {
@@ -152,14 +154,20 @@ export default{
 .article_list .meta {
 	display: flex;
 	align-items: center;
-    padding-right: 0!important;
     font-size: 12px;
     font-weight: 400;
-    line-height: 20px;
 }
-.article_list .meta a{
-    color: #808080;
-    margin-right: 8px;
+.article_list .meta a,.article_list .meta span{
+    color: #888;
+    margin-right:5px;
+}
+.article_list .meta .tag{
+	padding: 0px 5px;
+	color: #ea6f5a;
+	text-align: center;
+	border: 1px solid #ea6f5a;
+	border-radius: 3px;
+	line-height: 1.5;
 }
 .article_list .art_category {
     padding: 2px 6px;

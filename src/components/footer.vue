@@ -42,6 +42,7 @@
 	background-color: #fff;
 	border-top: 1px solid #ccc;
 	z-index: 99;
+	color: #666;
 }	
 .footer .footer-list{
 	display: flex;
@@ -59,7 +60,7 @@
 	color: #666;
 }	
 .footer .footer-list li a.active{
-	color: #000;
+	color: #333;
 }	
 .footer .footer-list li i{
 	font-size: 22px;
