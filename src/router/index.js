@@ -5,7 +5,8 @@ import home from '../pages/home'
 Vue.use(Router)
 
 export default new Router({
-	linkActiveClass: 'active',
+  linkActiveClass: 'active',
+  // history: true,
   routes: [
     {
       path: '/',

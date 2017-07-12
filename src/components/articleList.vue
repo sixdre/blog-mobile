@@ -3,9 +3,9 @@
 		<div class="top-title">
 			<span>热门文章</span>
 		</div>
-		<div class="article_list" ref="article_wrapper" style="height: 200px;position: relative;">
-			<ul class="content">
-				<li v-for="item in dataList" :class="{'have-img':item.img}">
+		<div class="" ref="article_wrapper" style="height: 200px;position: relative;">
+			<ul class="article_list">
+				<li v-for="item in dataList" :key="item" :class="{'have-img':item.img}">
 					<a v-if="item.img" class="wrap-img" href="">
 				      <img :src="item.img" class="img-responsive">
 				    </a>
@@ -18,10 +18,13 @@
 						</div>
 						<a class="title" href="">{{item.title}}</a>
 						<div class="meta">
-							<a class="tag">{{item.category.name}}</a>
-							<span>阅读 {{item.pv}}</span>
+							<a class="tag">
+								<span v-if="item.category&&item.category.name">{{item.category.name}}</span>
+								<span v-else>未分类</span>
+							</a>
+							<span>阅读 {{item.nums.pv}}</span>
 							<span>评论 {{item.nums.cmtNum}}</span>
-							<span>喜欢 {{item.likes.length}}</span>
+							<span>喜欢 {{item.nums.likeNum}}</span>
 						</div>
 					</div>
 				</li>
@@ -35,6 +38,7 @@ import axios from 'axios'
 import BSscroll from 'better-scroll'
 
 export default{
+	name:'artilce',
 //	props:{
 //	  	dataList:{
 //	  		type:Array
@@ -62,12 +66,14 @@ export default{
 		},
 		async getData(){		//获取数据
 			axios.get('/api/articles',{params:{limit:20}}).then((res) => {
-			 	let data=res.data;
+				 let data=res.data;
+				 console.log(data)
 			 	if(data.code==1){
-			 		this.dataList=res.data.articles;
+					 this.dataList=data.articles;
+					 console.log(this.dataList)
 			 	}
 		    });
-		},
+		}
 	}
 }
 
@@ -87,7 +93,7 @@ export default{
     word-wrap: break-word;
 }
 .article_list .content{
-	padding: 20px 0;
+	padding:15px 0;
 }
 .article_list .have-img .wrap-img {
     position: absolute;
@@ -131,12 +137,10 @@ export default{
     cursor: pointer;
 }
 .article_list .title {
-    /*margin: -7px 0 4px;*/
     display: inherit;
-    font-size: 18px;
-    font-weight: 600;
-    padding: 13px 0;
-    /*line-height: 2.5;*/
+    font-size:16px;
+    padding: 10px 0;
+    line-height: 1.5;
     color: #333;
 }
 .article_list .author .name {
@@ -144,12 +148,7 @@ export default{
     vertical-align: middle;
 }
 .article_list .author a {
-    color: #333;
-}
-.article_list .abstract {
-    margin: 0 0 8px;
-    font-size: 13px;
-    line-height: 24px;
+    color: #666;
 }
 .article_list .meta {
 	display: flex;
@@ -168,6 +167,9 @@ export default{
 	border: 1px solid #ea6f5a;
 	border-radius: 3px;
 	line-height: 1.5;
+}
+.article_list .meta .tag span{
+	color: #ea6f5a;
 }
 .article_list .art_category {
     padding: 2px 6px;

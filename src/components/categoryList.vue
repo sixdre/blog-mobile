@@ -2,13 +2,13 @@
 	<div>
 		<div class="top-title">
 			<span>热门专题</span>
-			<span class="refesh">
+			<span class="refesh" @click="refresh()">
 				<i class="fa fa-refresh"></i>
 				换一批
 			</span>
 		</div>
 		<div class="collection-groups">
-			<a v-for="item in dataList" class="collection">{{item.name}}</a>
+			<a v-for="item in dataList" :key="item" class="collection">{{item.name}}</a>
 		</div>
 	</div>
 </template>
@@ -21,6 +21,11 @@ export default{
 	  		type:Array
 	  	}
 	},
+	methods:{
+		refresh(){
+			this.$emit('refreshCategory');	//向父级传播refreshCategory事件
+		}
+	}
 //	data(){
 //		return {
 //			categoryList:['短篇小说','连载小说','故事']

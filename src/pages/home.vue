@@ -1,6 +1,6 @@
 <template>
-	<div ref="main">
-		<category-list :dataList="categoryList"></category-list>
+	<div ref="home">
+		<category-list :dataList="categoryList" @refreshCategory="refreshCategory()"></category-list>
 		<div class="split-line"></div>
 		<article-list></article-list>
 	</div>
@@ -18,24 +18,27 @@ export default{
 		'articleList':articleList
 	},
 	created() {
-//		this.getData();
-		this.getCategories();
+		this.getCategories(0,7);
 	},
 	data(){
 		return {
-			articleList:[],
-			categoryList:[]
+			categoryList:[],
+			categoryTotal:0
 		}
 	},
 	methods:{
-		
-		async getCategories(){
-			axios.get('/api/category').then((res) => {
+		async getCategories(skip,limit){
+			axios.get('/api/categories',{params:{skip:skip,limit:limit}}).then((res) => {
 			 	let data=res.data;
 			 	if(data.code==1){
-			 		this.categoryList=res.data.categorys;
+					 this.categoryList=data.categories;
+					 this.categoryTotal = data.total;
 			 	}
 		    });
+		},
+		refreshCategory(){
+			let skip = Math.ceil(Math.random()*(this.categoryTotal/7));
+			this.getCategories(skip,7)
 		}
 	}
 	
