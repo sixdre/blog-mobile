@@ -3,7 +3,7 @@
 		<div class="top-title">
 			<span>热门文章</span>
 		</div>
-		<div class="" ref="article_wrapper" style="height: 200px;position: relative;">
+		<div class="articlewrapper" ref="articlewrapper">
 			<ul class="article_list">
 				<li v-for="item in dataList" :key="item" :class="{'have-img':item.img}">
 					<a v-if="item.img" class="wrap-img" href="">
@@ -46,13 +46,13 @@ export default{
 //	},
 	data(){
 		return{
-			dataList:[]
+			dataList:[],
+			page:1,
 		}
 	},
 	created() {
 		this.getData().then(()=>{
 			this.$nextTick(() => {
-				console.log(document.getElementsByClassName('article_list')[0])
 			    this.initScroll();
 			})
 		
@@ -60,27 +60,53 @@ export default{
 	},
 	methods:{
 		initScroll() {
-			new BSscroll(this.$refs.article_wrapper,{
+			this.articleScroll = new BSscroll(this.$refs.articlewrapper,{
 				click:true
 			})
+			this.articleScroll.on('touchend',(pos) => {
+				console.log(this.articleScroll)
+				console.log(pos)
+				if (pos.y > 50) {		//上拉刷新
+                  	this.getData();  	
+				}else if(pos.y<-50){	//下拉加载更多
+					this.page++;
+					let page =this.page;
+					this.getData(page).then(()=>{
+						this.articleScroll.refresh();
+					})  	
+				}
+			})
 		},
-		async getData(){		//获取数据
-			axios.get('/api/articles',{params:{limit:20}}).then((res) => {
+		async getData(page=1,limit=5){		//获取数据
+			await axios.get('/api/articles',{params:{currentPage:page,limit:limit}}).then((res) => {
 				 let data=res.data;
-				 console.log(data)
 			 	if(data.code==1){
-					 this.dataList=data.articles;
-					 console.log(this.dataList)
+					data.articles.map((value) => {
+						 this.dataList.push(value)
+					})
 			 	}
 		    });
 		}
-	}
+	},
+	// watch:{
+	// 	dataList(newVal,oldVal){
+	// 		if(newVal!==oldVal){
+	// 			console.log('s')
+				
+	// 		}
+	// 	}
+	// }
 }
 
 	
 </script>
 
 <style>
+.articlewrapper{
+	height:300px;
+	position: relative;
+	overflow:hidden;
+}
 .article_list{
     margin: 0;
     list-style: none;
