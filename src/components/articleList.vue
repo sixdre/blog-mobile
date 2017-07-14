@@ -1,15 +1,30 @@
 <template>
-	<div>
-		<div class="top-title">
-			<span>热门文章</span>
-		</div>
-		<div class="articlewrapper" ref="articlewrapper">
+	<!-- <div> -->
+	<scroll class="articlewrapper"  :dataList="articleList" :pulldown="pulldown" 
+			:pullup="pullup" @pulldown="refresh"
+			@pullup="loadMore"
+			>
+		<div class="scroll">
+			<div class="top-title">
+				<span>热门专题</span>
+				<span class="refesh" @click="refreshCategory()">
+					<i class="fa fa-refresh"></i>
+					换一批
+				</span>
+			</div>
+			<div class="collection-groups">
+				<a v-for="item in categoryList" :key="item" class="collection">{{item.name}}</a>
+			</div>
+			<div class="split-line"></div>  
+			<div class="top-title">
+				<span>热门文章</span>
+			</div>
 			<ul class="article_list">
-				<li v-for="item in dataList" :key="item" :class="{'have-img':item.img}">
+				<li v-for="item in articleList" :key="item" :class="{'have-img':item.img}">
 					<a v-if="item.img" class="wrap-img" href="">
-				      <img :src="item.img" class="img-responsive">
-				    </a>
-				    <div class="content">
+					<img :src="item.img" class="img-responsive">
+					</a>
+					<div class="content">
 						<div class="author">
 							<div class="name">
 								<a class="blue-link" href="javascript:;">{{item.author}}</a>
@@ -30,82 +45,110 @@
 				</li>
 			</ul>
 		</div>
-	</div>
+	</scroll>
+<!-- </div> -->
 </template>
 
 <script>
 import axios from 'axios'
-import BSscroll from 'better-scroll'
+import scroll from './common/scroll'
 
 export default{
 	name:'artilce',
-//	props:{
-//	  	dataList:{
-//	  		type:Array
-//	  	}
-//	},
+    components:{
+		scroll
+	},
 	data(){
 		return{
-			dataList:[],
+			categoryList:[],
+			categoryTotal:0,
+			articleList:[],
+			totalPage:0,
 			page:1,
+            pulldown:true,
+            pullup:true
 		}
 	},
 	created() {
-		this.getData().then(()=>{
-			this.$nextTick(() => {
-			    this.initScroll();
-			})
-		
+        this.getData().then((data)=> {
+			this.articleList = data.articles;
 		})
+		this.getCategories(0,7);
 	},
 	methods:{
-		initScroll() {
-			this.articleScroll = new BSscroll(this.$refs.articlewrapper,{
-				click:true
-			})
-			this.articleScroll.on('touchend',(pos) => {
-				console.log(this.articleScroll)
-				console.log(pos)
-				if (pos.y > 50) {		//上拉刷新
-                  	this.getData();  	
-				}else if(pos.y<-50){	//下拉加载更多
-					this.page++;
-					let page =this.page;
-					this.getData(page).then(()=>{
-						this.articleScroll.refresh();
-					})  	
-				}
-			})
-		},
-		async getData(page=1,limit=5){		//获取数据
-			await axios.get('/api/articles',{params:{currentPage:page,limit:limit}}).then((res) => {
-				 let data=res.data;
+		async getCategories(skip,limit){
+			axios.get('/api/categories',{params:{skip:skip,limit:limit}}).then((res) => {
+			 	let data=res.data;
 			 	if(data.code==1){
-					data.articles.map((value) => {
-						 this.dataList.push(value)
-					})
+					 this.categoryList = data.categories;
+					 this.categoryTotal = data.total;
 			 	}
 		    });
+		},
+		refreshCategory(){
+			let skip = Math.ceil(Math.random()*(this.categoryTotal/7));
+			this.getCategories(skip,7)
+		},
+		async getData(page=1,limit=5){		//获取数据
+			try{
+				let res = await axios.get('/api/articles',{params:{currentPage:page,limit:limit}});
+				let data = res.data;
+				this.totalPage = data.totalPage;
+				if(data.code == 1){
+					return data;
+				}
+			}catch(err){
+
+			}
+		},
+        loadMore(){
+            this.page++;
+			if(this.page>this.totalPage){
+				return ;
+			}
+            this.getData(this.page).then((data)=>{
+				if(!data){
+					return ;
+				}
+				data.articles.map((value)=>{
+					this.articleList.push(value);
+				})
+			})
+        },
+		refresh(){
+			this.getData().then((data)=> {
+				this.page = 1;
+				this.articleList = data.articles;
+				console.log(this.articleList)
+			})
 		}
 	},
-	// watch:{
-	// 	dataList(newVal,oldVal){
-	// 		if(newVal!==oldVal){
-	// 			console.log('s')
-				
-	// 		}
-	// 	}
-	// }
+
 }
 
 	
 </script>
 
 <style>
+.collection-groups{
+	padding: 10px 15px;
+}
+.collection-groups .collection{
+	display: inline-block;
+	padding: 5px 8px;
+    margin: 0 12px 12px 0;
+    border: 1px solid #ea6f5a;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #ea6f5a;
+}
 .articlewrapper{
-	height:300px;
-	position: relative;
-	overflow:hidden;
+	
+	position: absolute;
+	top: 40px;
+	bottom:0;
+	/* overflow:hidden; */
+	margin-bottom:50px;
 }
 .article_list{
     margin: 0;

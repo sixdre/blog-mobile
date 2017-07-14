@@ -1,33 +1,33 @@
 <template>
-	<div class="footer">
-		<ul class="footer-list">
-			<li>
-				<router-link to="/">
-					<i class="fa fa-home"></i>
-					<span class="title">首页</span>
-				</router-link>
-			</li>
-			<li>
-				<router-link to="/discovery">
-					<i class="fa fa-compass"></i>
-					<span class="title">发现</span>
-				</router-link>
-			</li>
-			
-			<li>
-				<router-link to="/message">
-					<i class="fa fa-bell-o"></i>
-					<span class="title">消息</span>
-				</router-link>
-			</li>
-			<li>
-				<router-link to="/me">
-					<i class="fa fa-user-o"></i>
-					<span class="title">我的</span>
-				</router-link>
-			</li>
-		</ul>
-	</div>
+		<div class="footer">
+			<ul class="footer-list">
+				<li>
+					<router-link to="/">
+						<i class="fa fa-home"></i>
+						<span class="title">首页</span>
+					</router-link>
+				</li>
+				<li>
+					<router-link to="/discovery">
+						<i class="fa fa-compass"></i>
+						<span class="title">发现</span>
+					</router-link>
+				</li>
+				
+				<li>
+					<router-link to="/message">
+						<i class="fa fa-bell-o"></i>
+						<span class="title">消息</span>
+					</router-link>
+				</li>
+				<li>
+					<router-link to="/me">
+						<i class="fa fa-user-o"></i>
+						<span class="title">我的</span>
+					</router-link>
+				</li>
+			</ul>
+		</div>
 </template>
 
 <script>

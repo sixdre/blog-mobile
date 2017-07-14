@@ -8,22 +8,37 @@
 			</span>
 		</div>
 		<div class="collection-groups">
-			<a v-for="item in dataList" :key="item" class="collection">{{item.name}}</a>
+			<a v-for="item in categoryList" :key="item" class="collection">{{item.name}}</a>
 		</div>
 	</div>
 </template>
 
 <script>
-	
+import axios from 'axios'
+
 export default{
-	props:{
-	  	dataList:{
-	  		type:Array
-	  	}
+	data(){
+	  	return{
+			categoryList:[],
+			categoryTotal:0
+		}
+	},
+	created() {
+		this.getCategories(0,7);
 	},
 	methods:{
+		async getCategories(skip,limit){
+			axios.get('/api/categories',{params:{skip:skip,limit:limit}}).then((res) => {
+			 	let data=res.data;
+			 	if(data.code==1){
+					 this.categoryList = data.categories;
+					 this.categoryTotal = data.total;
+			 	}
+		    });
+		},
 		refresh(){
-			this.$emit('refreshCategory');	//向父级传播refreshCategory事件
+			let skip = Math.ceil(Math.random()*(this.categoryTotal/7));
+			this.getCategories(skip,7)
 		}
 	}
 //	data(){
