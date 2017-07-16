@@ -1,22 +1,66 @@
-.top-title{
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+.top-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 10px 18px;
     font-size: 14px;
     font-weight: 700;
     color: #545454;
     border-bottom: 1px solid #eaeaea;
-}	
-.top-title 	.refesh{
-	
+}
+
+.top-title .refesh {
     color: #888;
     font-size: 13px;
     font-weight: 200;
     line-height: 1.75;
 }
-.split-line{
+
+.split-line {
     height: 20px;
     background-color: #f5f5f5;
 }
 
+.container {
+    padding: 0 15px;
+}
+
+h1.title {
+    margin: 15px 0;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: -apple-system, SF UI Display, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif;
+    color: #2f2f2f;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.avatar {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.avatar .name {
+    margin: 0 5px;
+    font-size: 14px;
+    color: #484848;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.avatar img {
+    width: 34px;
+    height: 34px;
+    border-radius: 100px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+.label {
+    padding: 1px 2px;
+    font-size: 12px;
+    color: #e78170;
+    border: 1px solid #e78170;
+    border-radius: 3px;
+    vertical-align: middle;
+}
