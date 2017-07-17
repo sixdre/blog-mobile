@@ -10,9 +10,7 @@
                 </router-link>
                 <span class="label">作者</span>
             </div>
-            <div v-html="article.tagcontent">
-               
-            </div>
+            <div v-html="article.tagcontent"></div>
         </div>
     </div>
 </template>
@@ -37,7 +35,6 @@ export default{
     methods:{
         getArticle(id){
             axios.get('/api/articles/'+id).then((res)=>{
-                console.log(res)
                 let data = res.data;
                 if(data.code == 1){
                     this.article = data.article;
@@ -49,6 +46,10 @@ export default{
 </script>
 
 <style>
+/* .article{
+    position: absolute;
+    top: 45px;
+} */
 .article-info{
     margin-bottom: 20px;
     font-size: 13px;

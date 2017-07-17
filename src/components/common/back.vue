@@ -6,7 +6,7 @@
             </span>
             <slot name="title"></slot>
             <section class="topnav">
-                <i class="fa fa-bars" aria-hidden="true" @click="showTopNav=!showTopNav"></i>
+                <i class="fa fa-bars" aria-hidden="true" @click.stop="showTopNav=!showTopNav"></i>
                 <transition name="fade">
                     <ul v-show="showTopNav">
                         <li>
@@ -31,7 +31,14 @@ export default {
         return {
             showTopNav: false
         }
-    }
+    },
+    created() {
+		document.addEventListener('click',(e)=>{
+            this.showTopNav = false;
+            e.stopPropagation();
+        })
+	}
+
 }
 </script>
 
@@ -59,6 +66,7 @@ export default {
 
 #back .goback {
     position: absolute;
+    width: 40px;
     left: 15px;
     height: 100%;
     line-height: 45px;

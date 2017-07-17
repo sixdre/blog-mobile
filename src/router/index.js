@@ -1,3 +1,4 @@
+import path from 'path'
 import Vue from 'vue'
 import Router from 'vue-router'
 import home from '../pages/home'
@@ -7,6 +8,8 @@ Vue.use(Router)
 
 export default new Router({
     linkActiveClass: 'active',
+    // mode: 'history',
+    // base: path.join(__dirname,'../../'),
     // history: true,
     routes: [{
             path: '/',
