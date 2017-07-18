@@ -17,28 +17,30 @@
 			</div>
 			<ul class="article_list">
 				<li v-for="item in articleList" :key="item.bId" :class="{'have-img':item.img}">
-					<a v-if="item.img" class="wrap-img" href="">
-						<img :src="item.img" class="img-responsive">
-					</a>
-					<div class="content">
-						<div class="author">
-							<router-link class="blue-link avatar" :to="'/article/'+item._id">
-								<img src="//upload.jianshu.io/users/upload_avatars/4155179/d68e4975c4cf.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="">
-								<span class="name">{{item.author}}</span>
-							</router-link>
-							<span class="time">{{item.create_time | fromNow}}</span>
+					<router-link :to="{path: '/article/'+item._id}">
+						<a v-if="item.img" class="wrap-img" href="">
+							<img :src="item.img" class="img-responsive">
+						</a>
+						<div class="content">
+							<div class="author">
+								<router-link class="blue-link avatar" :to="'/article/'+item._id">
+									<img src="//upload.jianshu.io/users/upload_avatars/4155179/d68e4975c4cf.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="">
+									<span class="name">{{item.author}}</span>
+								</router-link>
+								<span class="time">{{item.create_time | fromNow}}</span>
+							</div>
+							<p class="title">{{item.title}}</p>
+							<div class="meta">
+								<a class="tag">
+									<span v-if="item.category&&item.category.name">{{item.category.name}}</span>
+									<span v-else>未分类</span>
+								</a>
+								<span>阅读 {{item.nums.pv}}</span>
+								<span>评论 {{item.nums.cmtNum}}</span>
+								<span>喜欢 {{item.nums.likeNum}}</span>
+							</div>
 						</div>
-						<router-link :to="'/article/'+item._id" class="title" href="">{{item.title}}</router-link>
-						<div class="meta">
-							<a class="tag">
-								<span v-if="item.category&&item.category.name">{{item.category.name}}</span>
-								<span v-else>未分类</span>
-							</a>
-							<span>阅读 {{item.nums.pv}}</span>
-							<span>评论 {{item.nums.cmtNum}}</span>
-							<span>喜欢 {{item.nums.likeNum}}</span>
-						</div>
-					</div>
+					</router-link>
 				</li>
 			</ul>
 		</div>
@@ -163,7 +165,9 @@ export default {
 	border-bottom: 1px solid #f0f0f0;
 	word-wrap: break-word;
 }
-
+.article_list li>a{
+	display: block;
+}
 .article_list .content {
 	padding: 15px 0;
 }

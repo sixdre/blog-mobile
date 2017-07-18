@@ -14,7 +14,10 @@ if ('addEventListener' in document) {
     }, false);
 }
 
-
+// router.beforeEach((to,from,next)=>{
+//     console.log(to)
+//     next()
+// })
 
 Vue.config.productionTip = false
 

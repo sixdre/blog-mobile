@@ -1,5 +1,5 @@
 <template>
-    <div id="back">
+    <div id="back" ref="back">
         <div class="headback">
             <span class="goback" @click="$router.go(-1)">
                 <i class="fa fa-angle-left"></i>
@@ -8,7 +8,7 @@
             <section class="topnav">
                 <i class="fa fa-bars" aria-hidden="true" @click.stop="showTopNav=!showTopNav"></i>
                 <transition name="fade">
-                    <ul v-show="showTopNav">
+                    <ul v-show="showTopNav" @click.stop>
                         <li>
                             <i class="fa fa-home"></i>收藏</li>
                         <li>
@@ -37,6 +37,8 @@ export default {
             this.showTopNav = false;
             e.stopPropagation();
         })
+
+      
 	}
 
 }
@@ -56,7 +58,6 @@ export default {
 #back {
     background-color: #fff;
     position: fixed;
-    z-index: 100;
     left: 0;
     top: 0;
     width: 100%;
@@ -67,11 +68,12 @@ export default {
 #back .goback {
     position: absolute;
     width: 40px;
-    left: 15px;
+    left: 0x;
     height: 100%;
     line-height: 45px;
     color: #666;
     font-size: 32px;
+    padding-left: 15px;
 }
 
 .topnav {

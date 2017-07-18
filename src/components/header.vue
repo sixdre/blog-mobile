@@ -10,7 +10,6 @@ export default {
 
 }
 
-
 </script>
 
 <style>
@@ -23,7 +22,6 @@ export default {
     padding: 5px 10px;
     border-bottom: 1px solid #eee;
     background-color: #fff;
-    z-index: 9999;
 }
 
 .header .search_input {

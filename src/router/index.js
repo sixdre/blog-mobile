@@ -3,6 +3,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import home from '../pages/home'
 import article from '../pages/article/article'
+import discovery from '../pages/discovery'
 
 Vue.use(Router)
 
@@ -15,12 +16,22 @@ export default new Router({
             path: '/',
             name: 'home',
             component: home,
-            meta: { keepAlive: true },
+            children: [{
+                path: 'article/:articleId', //文章详情页
+                component: article,
+                meta: { keepAlive: false }
+            }], 
+            meta: { keepAlive: true }
         },
         {
-            path: '/article/:articleId',
-            name: 'article',
-            component: article
-        }
+            path: '/discovery',
+            component: discovery,
+            meta: { keepAlive: true},
+        },
+        // {
+        //     path: '/article/:articleId',
+        //     name: 'article',
+        //     component: article
+        // }
     ]
 })

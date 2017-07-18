@@ -35,13 +35,12 @@
 
 <style scoped>
 .footer {
-	position: fixed;
+	position: absolute;
 	bottom: 0;
 	left: 0;
 	width: 100%;
 	background-color: #fff;
 	border-top: 1px solid #ccc;
-	z-index: 99;
 	color: #666;
 }
 
@@ -59,11 +58,12 @@
 	text-align: center;
 }
 
-.footer .footer-list li a {
+.footer .footer-list li>a {
 	color: #666;
+	display: block;
 }
 
-.footer .footer-list li a.active {
+.footer .footer-list li>a.active {
 	color: #333;
 }
 

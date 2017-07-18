@@ -41,11 +41,6 @@ export default {
 			this.getCategories(skip, 7)
 		}
 	}
-	//	data(){
-	//		return {
-	//			categoryList:['短篇小说','连载小说','故事']
-	//		}
-	//	}
 }
 
 
