@@ -1,7 +1,6 @@
 <template>
 	<div id="home" ref="home">
 		<v-header></v-header>
-		<!-- <category-list></category-list> -->
 		<article-list></article-list>
 		<v-footer></v-footer>
 		<transition :name="transitionName" mode="out-in">
@@ -13,12 +12,10 @@
 <script>
 import Header from '@/components/header'
 import Footer from '@/components/footer'
-import categoryList from '@/components/categoryList'
 import articleList from '@/components/articleList'
 
 export default {
 	components: {
-		'categoryList': categoryList,
 		'articleList': articleList,
 		'v-header': Header,
 		'v-footer': Footer
@@ -28,12 +25,12 @@ export default {
 			transitionName:'slide-left' //绑定在组件上面的动效class
 		}
 	},
-	activated(){
-		console.log('scsc')
-	},
-	deactivated (){
-		console.log('cscscsc')
-	},
+	// activated(){
+	// 	console.log('scsc')
+	// },
+	// deactivated (){
+	// 	console.log('cscscsc')
+	// },
 	watch: {
 		'$route'(to, from) {
 			const toDepth = to.path.split('/').length

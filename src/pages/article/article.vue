@@ -21,7 +21,7 @@
 <script>
 import back from '@/components/common/back'
 import alertTip from  '@/components/common/tips'
-import axios from 'axios'
+import getData from '../../service/getData'
 
 export default{
     components:{
@@ -40,7 +40,8 @@ export default{
     },
     methods:{
         getArticle(id){
-            axios.get('/api/articles/'+id).then((res)=>{
+            getData.getArticleDetail(id).then((res)=>{
+                console.log(res)
                 let data = res.data;
                 if(data.code == 1){
                     this.article = data.article;
@@ -48,10 +49,7 @@ export default{
             })
         },
         updatePv(id){
-            axios.put('/api/articles/'+id+'/pv').then((res)=>{
-                let data = res.data;
-                console.log(data)
-            })
+            getData.updateArticlePv(id);
         }
     }
 }

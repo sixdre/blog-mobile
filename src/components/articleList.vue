@@ -48,8 +48,8 @@
 </template>
 
 <script>
-import axios from 'axios'
 import scroll from './common/scroll'
+import getData from '../service/getData'
 
 export default {
 	name: 'artilce',
@@ -68,34 +68,35 @@ export default {
 		}
 	},
 	created() {
-		this.getData().then((data) => {
-			this.articleList = data.articles;
-		})
-		this.getCategories(0, 7);
+		this.InitArticles();
+		this.InitCategories();
 	},
 	methods: {
-		async getCategories(skip, limit) {
-			axios.get('/api/categories', { params: { skip: skip, limit: limit } }).then((res) => {
+		async InitCategories() {
+			try{
+				let res = await getData.getCategories();
 				let data = res.data;
-				if (data.code == 1) {
-					this.categoryList = data.categories;
-					this.categoryTotal = data.total;
-				}
-			});
+				this.categoryList = data.categories;
+				this.categoryTotal = data.total;
+			}catch(err){
+
+			}
 		},
 		refreshCategory() {
 			let skip = Math.ceil(Math.random() * (this.categoryTotal / 7));
-			this.getCategories(skip, 7)
+			getData.getCategories(skip).then(res=>{		//这里暂时这样
+				let data = res.data;
+				this.categoryTotal = data.total;
+				this.categoryList = data.categories;
+			})
 		},
-		async getData(page = 1, limit = 5) {		//获取数据
-			try {
-				let res = await axios.get('/api/articles', { params: { currentPage: page, limit: limit } });
+		async InitArticles() {		//获取数据
+			try{
+				let res = await getData.getArticles();
 				let data = res.data;
 				this.totalPage = data.totalPage;
-				if (data.code == 1) {
-					return data;
-				}
-			} catch (err) {
+				this.articleList = data.articles;
+			}catch(err){
 
 			}
 		},
@@ -105,20 +106,17 @@ export default {
 				this.$refs.articlewrapper.nomore();
 				return;
 			}
-			this.getData(this.page).then((data) => {
-				if (!data) {
-					this.$refs.articlewrapper.nomore();
-					return;
-				}
-				data.articles.map((value) => {
+			getData.getArticles(this.page).then((res) => {
+				 let data = res.data;
+				 data.articles.map((value) => {
 					this.articleList.push(value);
-				})
+				 });
 			})
 		},
 		refresh() {
-			this.getData().then((data) => {
+			getData.getArticles().then((res) => {
 				this.page = 1;
-				this.articleList = data.articles;
+				this.articleList = res.data.articles;
 				this.$refs.articlewrapper.pulldownEnd();
 			})
 		}
