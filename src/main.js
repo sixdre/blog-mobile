@@ -21,10 +21,18 @@ if ('addEventListener' in document) {
 
 Vue.config.productionTip = false
 
+Vue.directive('goback', (el) => {
+    el.addEventListener('click', function() {
+        router.go(-1);
+    })
+})
+
+
+
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App }
+    el: '#app',
+    router,
+    template: '<App/>',
+    components: { App }
 })

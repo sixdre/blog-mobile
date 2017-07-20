@@ -8,7 +8,7 @@
 			</span>
 		</div>
 		<div class="collection-groups">
-			<a v-for="item in categoryList" :key="item" class="collection">{{item.name}}</a>
+			<a v-for="(item,index) in categoryList" :key="index" class="collection">{{item.name}}</a>
 		</div>
 	</div>
 </template>

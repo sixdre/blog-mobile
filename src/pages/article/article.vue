@@ -41,7 +41,6 @@ export default{
     methods:{
         getArticle(id){
             getData.getArticleDetail(id).then((res)=>{
-                console.log(res)
                 let data = res.data;
                 if(data.code == 1){
                     this.article = data.article;
