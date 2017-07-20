@@ -1,6 +1,6 @@
 <template>
     <div>
-        <back></back>
+        <back :rightNav="true"></back>
         <div class="article">
             <div class="container">
                 <h1 class="title">{{article.title}}</h1>
@@ -21,7 +21,7 @@
 <script>
 import back from '@/components/common/back'
 import alertTip from  '@/components/common/tips'
-import getData from '../../service/getData'
+import getData from '@/service/getData'
 
 export default{
     components:{

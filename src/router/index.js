@@ -1,9 +1,9 @@
 import path from 'path'
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from '../pages/home'
-import article from '../pages/article/article'
-import discovery from '../pages/discovery'
+import home from '@/pages/home/home'
+import article from '@/pages/article/article'
+import discovery from '@/pages/discovery'
 
 Vue.use(Router)
 

@@ -1,7 +1,11 @@
 <template>
 	<div id="home" ref="home">
 		<v-header></v-header>
-		<article-list></article-list>
+		<scroll class="wrapper" ref="wrapper" :dataList="articleList" :pulldown="pulldown" :pullup="pullup" @pulldown="refresh" @pullup="loadMore">
+			<Banner></Banner>
+			<category-list></category-list>
+			<article-list :articleList="articleList"></article-list>
+		</scroll>
 		<v-footer></v-footer>
 		<transition :name="transitionName" mode="out-in">
 			<router-view class="child-view"></router-view>
@@ -13,12 +17,15 @@
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import Banner from '@/components/common/banner'
-import scroll from './common/scroll'
+import scroll from '@/components/common/scroll'
 import articleList from '@/components/articleList'
+import categoryList from '@/components/categoryList'
+import getData from '@/service/getData'
 
 export default {
 	components: {
-		'articleList': articleList,
+		articleList,
+		categoryList,
 		'v-header': Header,
 		'v-footer': Footer,
 		Banner,
@@ -26,7 +33,51 @@ export default {
 	},
 	data(){
 		return {
-			transitionName:'slide-left' //绑定在组件上面的动效class
+			transitionName:'slide-left', //绑定在组件上面的动效class
+			articleList:[],
+			totalPage: 0,
+			page: 1,
+			pulldown: true,
+			pullup: true
+		}
+	},
+	created(){
+		this.InitArticles().then(()=>{
+			this.$nextTick(()=>{
+				this.$refs.wrapper.initScroll();
+			})
+		})
+	},
+	methods:{
+		async InitArticles() {		//获取数据
+			try{
+				let res = await getData.getArticles();
+				let data = res.data;
+				this.totalPage = data.totalPage;
+				this.articleList = data.articles;
+			}catch(err){
+
+			}
+		},
+		loadMore() {
+			this.page++;
+			if (this.page > this.totalPage) {
+				this.$refs.wrapper.nomore();
+				return;
+			}
+			getData.getArticles(this.page).then((res) => {
+				 let data = res.data;
+				 data.articles.map((value) => {
+					this.articleList.push(value);
+				 });
+			})
+		},
+		refresh() {
+			getData.getArticles().then((res) => {
+				this.page = 1;
+				this.articleList = res.data.articles;
+				this.$refs.wrapper.pulldownEnd();
+			})
 		}
 	},
 	// activated(){
@@ -50,7 +101,14 @@ export default {
 </script>
 
 <style>
-
+.wrapper {
+	position: absolute;
+	margin: 40px 0 50px 0;
+	top: 0px; 
+	bottom: 0px;
+	width: 100%;
+	overflow: hidden;
+}
 .child-view {
     position: absolute;
     left:0;
@@ -62,21 +120,18 @@ export default {
 }
 
  .slide-left-enter, .slide-right-leave-active {
-    opacity: 0;
     -webkit-transform: translate(100%, 0);
     transform: translate(100%, 0);
     transition-delay: .3s;
     -webkit-transition-delay: .3s;
 }
 .slide-left-leave-active{
-    opacity: 0;
     -webkit-transform: translate(100%, 0);
     transform: translate(100%, 0);
     transition-delay: .3s;
     -webkit-transition-delay: .3s;
 }
 .slide-right-enter {
-    opacity: 0;
     -webkit-transform: translate(-100%, 0);
     transform: translate(-100%, 0);
     transition-delay: .3s;

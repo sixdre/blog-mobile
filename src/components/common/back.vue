@@ -5,7 +5,7 @@
                 <i class="fa fa-angle-left"></i>
             </span>
             <slot name="title"></slot>
-            <section class="topnav">
+            <section class="topnav" v-if="rightNav">
                 <i class="fa fa-bars" aria-hidden="true" @click.stop="showTopNav=!showTopNav"></i>
                 <transition name="fade">
                     <ul v-show="showTopNav" @click.stop>
@@ -27,6 +27,12 @@
 
 <script>
 export default {
+    props:{
+        rightNav:{
+            type:Boolean,
+            default:false   
+        }
+    },
     data() {
         return {
             showTopNav: false

@@ -14,5 +14,6 @@ Vue.filter('moment', function (value, formatString) {
 });
 
 Vue.filter('fromNow', function (value, formatString) {
+    console.log(moment(value).startOf('time').fromNow())
     return moment(value).startOf('time').fromNow()
 });

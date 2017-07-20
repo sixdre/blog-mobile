@@ -1,5 +1,5 @@
 <template>
-	<div id="scroll-wrapper" ref="wrapper">
+	<div id="scroll-wrapper" ref="scrollwrapper">
         <div id="scroller">
             <div id="scroller-pullDown">
 				<span id="down-icon" class="icon-double-angle-down pull-down-icon"></span>
@@ -44,24 +44,20 @@ export default{
             default: false
         },
     },
-    mounted() {
-        // 保证在DOM渲染完毕后初始化better-scroll
-        // this.$nextTick(() => {
-        //     this.initScroll();
-        // })
-        setTimeout(() => {
-           this.initScroll();
-        }, 20)
+    mounted () {
+
     },
     methods:{
         initScroll(){
-            if (!this.$refs.wrapper) {
+            console.log(this.$refs.scrollwrapper)
+            if (!this.$refs.scrollwrapper) {
                 return
             }
-            this.scroll = new BSscroll(this.$refs.wrapper,{
+            this.scroll = new BSscroll(this.$refs.scrollwrapper,{
                 probeType: this.probeType,
                 click: this.click
-			})
+            })
+             console.log(this.scroll)
             if (this.pullup) {          //上拉加载
                 this.scroll.on('scrollEnd', () => {
                     // 滚动到底部
@@ -95,6 +91,12 @@ export default{
             document.getElementById('pullUp-msg').innerHTML="没有更多数据";
             document.getElementById('pullUp-msg').style.display='inline';
             document.getElementById('up-icon').style.display='none';
+        },
+        refresh(){
+            this.scroll && this.scroll.refresh()
+        },
+        scrollTo() {
+            this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
         }
     },
     watch: {
