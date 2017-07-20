@@ -12,13 +12,17 @@
 <script>
 import Header from '@/components/header'
 import Footer from '@/components/footer'
+import Banner from '@/components/common/banner'
+import scroll from './common/scroll'
 import articleList from '@/components/articleList'
 
 export default {
 	components: {
 		'articleList': articleList,
 		'v-header': Header,
-		'v-footer': Footer
+		'v-footer': Footer,
+		Banner,
+		scroll
 	},
 	data(){
 		return {

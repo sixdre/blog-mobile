@@ -1,6 +1,7 @@
 <template>
 	<scroll class="articlewrapper" ref="articlewrapper" :dataList="articleList" :pulldown="pulldown" :pullup="pullup" @pulldown="refresh" @pullup="loadMore">
 		<div class="scroll">
+			<Banner></Banner>	
 			<div class="top-title">
 				<span>热门专题</span>
 				<span class="refesh" @click="refreshCategory()">
@@ -49,12 +50,14 @@
 
 <script>
 import scroll from './common/scroll'
+import Banner from '@/components/common/banner'
 import getData from '../service/getData'
 
 export default {
 	name: 'artilce',
 	components: {
-		scroll
+		scroll,
+		Banner
 	},
 	data() {
 		return {
