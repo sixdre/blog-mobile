@@ -1,5 +1,6 @@
 <template>
     <div>
+        <loading :show="showLoading"></loading>
         <back :rightNav="true"></back>
         <div class="article">
             <div class="container">
@@ -21,15 +22,18 @@
 <script>
 import back from '@/components/common/back'
 import alertTip from  '@/components/common/tips'
+import loading from '@/components/common/loading'
 import getData from '@/service/getData'
 
 export default{
     components:{
         back,
-        'alert-tip':alertTip
+        'alert-tip':alertTip,
+        loading
 	},
     data(){
         return {
+            showLoading:true,
             articleId:this.$route.params.articleId,
             article:{}
         }
@@ -37,6 +41,11 @@ export default{
     created(){
        this.updatePv(this.articleId);
        this.getArticle(this.articleId);
+    },
+    mounted(){
+        this.$nextTick(()=>{
+             this.showLoading = false;
+        })
     },
     methods:{
         getArticle(id){
