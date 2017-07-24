@@ -49,7 +49,6 @@ export default{
     },
     methods:{
         initScroll(){
-            console.log(this.$refs.scrollwrapper)
             if (!this.$refs.scrollwrapper) {
                 return
             }
@@ -57,7 +56,6 @@ export default{
                 probeType: this.probeType,
                 click: this.click
             })
-             console.log(this.scroll)
             if (this.pullup) {          //上拉加载
                 this.scroll.on('scrollEnd', () => {
                     // 滚动到底部

@@ -15,6 +15,27 @@
                 <div v-html="article.tagcontent"></div>
             </div>
         </div>
+        <div class="comment container">
+            <ul class="comment-list">
+                <li class="comment-item clearfix" v-for="(item,index) in commentList" :key="index">
+                    <a href="" class="avatar">
+                        <img src="//upload.jianshu.io/users/upload_avatars/4155179/d68e4975c4cf.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="">
+                    </a>
+                    <div class="comment-main">
+                        <div class="comment-header">
+                            <span class="username">admin</span>
+                            <span class="fr"><i class="fa fa-thumbs-o-up"></i> {{item.likeNum}}</span>
+                        </div>
+                        <div class="comment-content">
+                            {{item.content}}
+                        </div>
+                        <div class="comment-footer">
+                            <span class="comment-time">{{item.create_time | fromNow}}</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
         <alert-tip :show='false'></alert-tip>
     </div>
 </template>
@@ -35,12 +56,15 @@ export default{
         return {
             showLoading:true,
             articleId:this.$route.params.articleId,
-            article:{}
+            article:{},
+            commentList:[]
         }
     },
     created(){
-       this.updatePv(this.articleId);
-       this.getArticle(this.articleId);
+       let id =this.articleId;
+       this.updatePv(id);
+       this.getArticle(id);
+       this.getComments(id)
     },
     mounted(){
         this.$nextTick(()=>{
@@ -53,6 +77,15 @@ export default{
                 let data = res.data;
                 if(data.code == 1){
                     this.article = data.article;
+                }
+            })
+        },
+        getComments(id){
+            getData.getComments(id).then(res=>{
+                let data = res.data;
+                console.log(data);
+                if(res.status == 200){
+                    this.commentList=data.comments; 
                 }
             })
         },
@@ -77,4 +110,38 @@ export default{
     vertical-align: middle;
 }
 
+.comment{
+    margin-top: 30px;
+}
+.comment-list .comment-item{
+    margin-bottom: 25px;
+}
+.comment-list .avatar{
+    float: left;
+    width: 35px;
+    height: 35px;
+    background-color: #ddd;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.comment-list .avatar img{
+    display: block;
+    width:100%;
+    height:100%;
+}
+.comment-list .comment-header .username{
+    font-size: 13px;
+    color: #333;
+}
+.comment-list  .comment-main{
+    padding-left: 45px;
+}
+.comment-list  .comment-main .comment-content{
+    margin: 8px 0;
+    font-size: 15px;
+}
+.comment-list  .comment-main .comment-footer{
+    font-size: 12px;
+}
 </style>
