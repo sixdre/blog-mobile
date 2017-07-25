@@ -36,6 +36,25 @@
                 </li>
             </ul>
         </div>
+        <div class="reply">
+            <div class="reply-input">
+                <input type="text" readonly placeholder="写评论">
+            </div>
+            <div class="showTool">
+                <span>
+                    <i class="fa fa-comment-o" style="position:relative;">
+                         <i class="nums" v-if="article.nums.cmtNum">{{article.nums.cmtNum}}</i>
+                    </i>
+                </span>
+                <span>
+                    <i class="fa fa-star-o"></i>
+                </span>
+                <span>
+                    <i class="fa fa-share"></i>
+                </span>
+            </div>
+
+        </div>
         <alert-tip :show='false'></alert-tip>
     </div>
 </template>
@@ -97,6 +116,55 @@ export default{
 </script>
 
 <style>
+.reply{
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width:100%;
+    height: 40px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    padding: 5px 0;
+
+}
+.reply .reply-input{
+    flex: 1;
+    padding:0 15px;
+}
+.reply .reply-input input{
+    width: 100%;
+    border: 0;
+    height: 30px;
+    border-radius: 15px;
+    background-color: #ddd;
+    padding: 0 15px;
+    font-size: 13px;
+}
+.reply .showTool{
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+.showTool span{
+    position: relative;
+    flex: 1;
+    text-align: center;
+    font-size: 20px;
+}
+.showTool span .nums{
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    padding: 0 3px;
+    color: #fff;
+    font-size: 10px;
+    background-color: #f00;
+    border-radius: 6px;
+    
+}
+
  .article{
     padding-top: 40px;
 } 

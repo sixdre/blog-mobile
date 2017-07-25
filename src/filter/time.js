@@ -6,7 +6,7 @@
 import Vue from 'vue'
 import moment from 'moment'
 
-moment.lang('zh-cn');
+moment.locale('zh-cn');
 
 Vue.filter('moment', function(value, formatString) {
     formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
