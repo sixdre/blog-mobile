@@ -43,7 +43,7 @@
             <div class="showTool">
                 <span>
                     <i class="fa fa-comment-o" style="position:relative;">
-                         <i class="nums" v-if="article.nums.cmtNum">{{article.nums.cmtNum}}</i>
+                         <i class="nums" v-if="article.nums&&article.nums.cmtNum">{{article.nums.cmtNum}}</i>
                     </i>
                 </span>
                 <span>
