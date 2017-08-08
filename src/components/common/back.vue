@@ -1,7 +1,7 @@
 <template>
     <div id="back" ref="back">
         <div class="headback">
-            <span class="goback" v-goback>
+            <span class="goback" @click="$router.go(-1)">
                 <i class="fa fa-angle-left"></i>
             </span>
             <slot name="title"></slot>

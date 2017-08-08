@@ -35,7 +35,7 @@ export default{
             type: Array,
             default: null
         },
-        pullup: {
+        pullup: {       
             type: Boolean,
             default: false
         },

@@ -1,7 +1,12 @@
 <template>
     <div>
         <loading :show="showLoading"></loading>
-        <back :rightNav="true"></back>
+        <head-top>
+            <span slot="left" @click="$router.go(-1)">
+                <i class="fa fa-angle-left"></i>
+            </span>
+            <span slot="title">{{article.title}}</span>
+        </head-top>
         <div class="article">
             <div class="container">
                 <h1 class="title">{{article.title}}</h1>
@@ -60,14 +65,14 @@
 </template>
 
 <script>
-import back from '@/components/common/back'
+import headTop from '@/components/header/header'
 import alertTip from  '@/components/common/tips'
 import loading from '@/components/common/loading'
 import getData from '@/service/getData'
 
 export default{
     components:{
-        back,
+        headTop,
         'alert-tip':alertTip,
         loading
 	},
