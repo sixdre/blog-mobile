@@ -3,12 +3,12 @@
         <div id="scroller">
             <div id="scroller-pullDown">
 				<span id="down-icon" class="icon-double-angle-down pull-down-icon"></span>
-				<span id="pullDown-msg" class="pull-down-msg">下拉刷新</span>
+				<span id="pullDown-msg" class="pull-down-msg">{{topText}}</span>
 			</div>
             <slot></slot>
             <div id="scroller-pullUp">
 				<span id="up-icon" class="icon-double-angle-up pull-up-icon"></span>
-				<span id="pullUp-msg" class="pull-up-msg">上拉加载</span>
+				<span id="pullUp-msg" class="pull-up-msg">{{bottomText}}</span>
 			</div>
         </div>
 	</div>
@@ -31,18 +31,52 @@ export default{
             type: Boolean,
             default: false
         },
+        topPullText: {
+	        type: String,
+	        default: '下拉刷新'
+	    },
+	    topDropText: {
+	        type: String,
+	        default: '释放更新'
+	    },
+	    topLoadingText: {
+	        type: String,
+	        default: '加载中...'
+	    },
+	    bottomPullText: {
+	        type: String,
+	        default: '上拉刷新'
+	    },
+	    bottomDropText: {
+	        type: String,
+	        default: '释放更新'
+	    },
+	    bottomLoadingText: {
+	        type: String,
+	        default: '加载中...'
+	    },
         dataList: {
             type: Array,
-            default: null
+            default(){
+            	return []
+            }
         },
-        pullup: {       
+        pullup: {       //上拉
             type: Boolean,
             default: false
         },
-        pulldown: {
+        pulldown: {		//下拉
             type: Boolean,
             default: false
         },
+    },
+    data(){
+    	return {
+    		topText:'',
+    		bottomText: '',
+    		topStatus: '',
+        	bottomStatus: ''
+    	}
     },
     mounted () {
 
@@ -56,16 +90,11 @@ export default{
                 probeType: this.probeType,
                 click: this.click
             })
-            if (this.pullup) {          //上拉加载
-                this.scroll.on('scrollEnd', () => {
-                    // 滚动到底部
-                    if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
-                        this.$emit('pullup')
-                    }
-                })
-            }
-
-            if (this.pulldown) {        //下拉刷新
+            this.onpullUp();
+            this.onpullDown();
+        },
+        onpullDown(){
+        	if (this.pulldown) {        //下拉刷新
                 this.scroll.on('scroll', (pos) => {
                     // 下拉动作
                     if (pos.y > 50) {
@@ -77,6 +106,16 @@ export default{
                     if (pos.y > 50) {
                         document.getElementById('pullDown-msg').innerHTML="加载中";
                         this.$emit('pulldown');
+                    }
+                })
+            }
+        },
+        onpullUp(){
+        	 if (this.pullup) {          //上拉加载
+                this.scroll.on('scrollEnd', () => {
+                    // 滚动到底部
+                    if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
+                        this.$emit('pullup')
                     }
                 })
             }
