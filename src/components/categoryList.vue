@@ -47,15 +47,15 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .collection-groups {
-	padding: 10px 15px;
+	padding: 0 15px;
 }
 
 .collection-groups .collection {
 	display: inline-block;
 	padding: 5px 8px;
-	margin: 0 12px 12px 0;
+	margin: 12px 12px 0 0;
 	border: 1px solid #ea6f5a;
 	border-radius: 4px;
 	font-size: 14px;

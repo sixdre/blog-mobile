@@ -1,2 +1,3 @@
 /*更新路由方向*/
 export const UPDATE_DIRECTION = 'UPDATE_DIRECTION';
+export const UPDATE_LOADING = 'UPDATE_LOADING';

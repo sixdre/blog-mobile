@@ -1,12 +1,18 @@
 <template>
 	<div id="home" ref="home">
 		<v-header></v-header>
-		<scroll class="wrapper" ref="wrapper" :dataList="articleList" :pulldown="pulldown" :pullup="pullup" @pulldown="refresh" @pullup="loadMore">
+		<scroll class="wrapper" ref="wrapper" :watchData="articleList" 
+			:pulldown="pulldown" :pullup="pullup" 
+			:pulldownMethod="refresh" :pullupMethod="loadMore"
+			:allLoaded="nomore"
+			>
 			<Banner></Banner>
 			<category-list></category-list>
+			<div class="top-title" >
+				<span>热门文章</span>
+			</div>
 			<article-list :articleList="articleList"></article-list>
 		</scroll>
-		<v-footer></v-footer>
 		<transition :name="transitionName" mode="out-in">
 			<router-view class="child-view"></router-view>
 		</transition>
@@ -38,7 +44,8 @@ export default {
 			totalPage: 0,
 			page: 1,
 			pulldown: true,
-			pullup: true
+			pullup: true,
+			nomore:false
 		}
 	},
 	created(){
@@ -60,9 +67,10 @@ export default {
 			}
 		},
 		loadMore() {
+			console.log(this.nomore)
 			this.page++;
 			if (this.page > this.totalPage) {
-				this.$refs.wrapper.nomore();
+				this.nomore = true;
 				return;
 			}
 			getData.getArticles(this.page).then((res) => {
@@ -76,7 +84,7 @@ export default {
 			getData.getArticles().then((res) => {
 				this.page = 1;
 				this.articleList = res.data.articles;
-				this.$refs.wrapper.pulldownEnd();
+				//this.$refs.wrapper.pulldownEnd();
 			})
 		}
 	},
@@ -103,7 +111,7 @@ export default {
 <style>
 .wrapper {
 	position: absolute;
-	margin: 40px 0 50px 0;
+	margin: 40px 0 0 0;
 	top: 0px; 
 	bottom: 0px;
 	width: 100%;

@@ -87,31 +87,27 @@ export default{
     created(){
        let id =this.articleId;
        this.updatePv(id);
-       this.getArticle(id);
-       this.getComments(id)
-    },
-    mounted(){
-        this.$nextTick(()=>{
-             this.showLoading = false;
-        })
+       this.getArticle(id).then(()=>{
+       	    this.$nextTick(()=>{
+	            this.showLoading = false;
+	        })
+       })
+       this.getComments(id);
     },
     methods:{
-        getArticle(id){
-            getData.getArticleDetail(id).then((res)=>{
-                let data = res.data;
-                if(data.code == 1){
-                    this.article = data.article;
-                }
-            })
+        async getArticle(id){
+    		let res = await getData.getArticleDetail(id);
+    		let data = res.data;
+    		if(data.code == 1){
+                this.article = data.article;
+            }
         },
-        getComments(id){
-            getData.getComments(id).then(res=>{
-                let data = res.data;
-                console.log(data);
-                if(res.status == 200){
-                    this.commentList=data.comments; 
-                }
-            })
+        async getComments(id){
+        	let res = await getData.getComments(id);
+        	let data = res.data;
+            if(res.status == 200){
+                this.commentList=data.comments; 
+            }
         },
         updatePv(id){
             getData.updateArticlePv(id);
