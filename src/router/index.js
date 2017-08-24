@@ -3,7 +3,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import home from '@/pages/home/home'
 import article from '@/pages/article/article'
-import discovery from '@/pages/discovery'
 
 Vue.use(Router)
 
@@ -22,12 +21,7 @@ export default new Router({
                 meta: { keepAlive: false }
             }], 
             meta: { keepAlive: true }
-        },
-        {
-            path: '/discovery',
-            component: discovery,
-            meta: { keepAlive: true},
-        },
+        }
         // {
         //     path: '/article/:articleId',
         //     name: 'article',

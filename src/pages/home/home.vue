@@ -1,11 +1,8 @@
 <template>
 	<div id="home" ref="home">
-		<v-header></v-header>
+		<header-search></header-search>
 		<scroll class="wrapper" ref="wrapper" :watchData="articleList" 
-			:pulldown="pulldown" :pullup="pullup" 
-			:pulldownMethod="refresh" :pullupMethod="loadMore"
-			:allLoaded="nomore"
-			>
+			:pullup="pullup" :pullupMethod="loadMore" :allLoaded="nomore">
 			<Banner></Banner>
 			<category-list></category-list>
 			<div class="top-title" >
@@ -13,27 +10,25 @@
 			</div>
 			<article-list :articleList="articleList"></article-list>
 		</scroll>
-		<transition :name="transitionName" mode="out-in">
-			<router-view class="child-view"></router-view>
+		<transition name="router-slid">
+			<router-view class="router-view"></router-view>
 		</transition>
 	</div>
 </template>
 
 <script>
-import Header from '@/components/header'
-import Footer from '@/components/footer'
+import headerSearch from '@/components/header'
 import Banner from '@/components/common/banner'
 import scroll from '@/components/common/scroll'
 import articleList from '@/components/articleList'
 import categoryList from '@/components/categoryList'
-import getData from '@/service/getData'
+import apiService from '@/service/api'
 
 export default {
 	components: {
 		articleList,
 		categoryList,
-		'v-header': Header,
-		'v-footer': Footer,
+		headerSearch,
 		Banner,
 		scroll
 	},
@@ -58,7 +53,7 @@ export default {
 	methods:{
 		async InitArticles() {		//获取数据
 			try{
-				let res = await getData.getArticles();
+				let res = await apiService.getArticles();
 				let data = res.data;
 				this.totalPage = data.totalPage;
 				this.articleList = data.articles;
@@ -73,32 +68,19 @@ export default {
 				this.nomore = true;
 				return;
 			}
-			getData.getArticles(this.page).then((res) => {
+			apiService.getArticles(this.page).then((res) => {
 				 let data = res.data;
 				 data.articles.map((value) => {
 					this.articleList.push(value);
 				 });
 			})
 		},
-		refresh() {
-			getData.getArticles().then((res) => {
-				this.page = 1;
-				this.articleList = res.data.articles;
-				//this.$refs.wrapper.pulldownEnd();
-			})
-		}
 	},
-	// activated(){
-	// 	console.log('scsc')
-	// },
-	// deactivated (){
-	// 	console.log('cscscsc')
-	// },
 	watch: {
 		'$route'(to, from) {
 			const toDepth = to.path.split('/').length
 			const fromDepth = from.path.split('/').length
-			// this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+			 this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
 			console.log(this.transitionName)
 		}
 	}
@@ -117,71 +99,6 @@ export default {
 	width: 100%;
 	overflow: hidden;
 }
-.child-view {
-    position: absolute;
-    left:0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    transition: all .3s cubic-bezier(.55,0,.1,1);
-    background-color: #fff;
-}
-  .vux-pop-out-enter-active,
-  .vux-pop-out-leave-active,
-  .vux-pop-in-enter-active,
-  .vux-pop-in-leave-active {
-    will-change: transform;
-    transition: all 300ms;
-    height: 100%;
-    top: 0;
-    position: absolute;
-    backface-visibility: hidden;
-    perspective: 1000;
-  }
 
-  .vux-pop-out-enter {
-    opacity: 0;
-    transform: translate3d(-100%, 0, 0);
-  }
 
-  .vux-pop-out-leave-active {
-    opacity: 0;
-    transform: translate3d(100%, 0, 0);
-  }
-
-  .vux-pop-in-enter {
-    opacity: 0;
-    transform: translate3d(100%, 0, 0);
-  }
-
-  .vux-pop-in-leave-active {
-    opacity: 0;
-    transform: translate3d(-100%, 0, 0);
-  }
- .slide-left-enter, .slide-right-leave-active {
-    -webkit-transform: translate(100%, 0);
-    transform: translate(100%, 0);
-    transition-delay: .3s;
-    -webkit-transition-delay: .3s;
-}
-.slide-left-leave-active{
-    -webkit-transform: translate(100%, 0);
-    transform: translate(100%, 0);
-    transition-delay: .3s;
-    -webkit-transition-delay: .3s;
-}
-.slide-right-enter {
-    -webkit-transform: translate(-100%, 0);
-    transform: translate(-100%, 0);
-    transition-delay: .3s;
-    -webkit-transition-delay: .3s;
-} 
- .slide-enter-active {
-    -webkit-transition: all .3s ease;
-    transition: all .3s ease;
-}
-.slide-leave-active {
-    -webkit-transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}  
 </style>

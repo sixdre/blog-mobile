@@ -1,6 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import VueRouter from 'vue-router'
 import moment from 'moment'
 import FastClick from 'fastclick'
 import App from './App'
@@ -54,6 +55,23 @@ Vue.directive('goback', (el) => {
 //     next()
 //   }
 // });
+
+
+VueRouter.prototype.go = function () {
+  this.isBack = true
+  window.history.go(-1)
+}
+
+
+
+//router.beforeEach((to, from, next)=>{
+//	
+//	next()
+//})
+
+
+
+
 
 
 /* eslint-disable no-new */

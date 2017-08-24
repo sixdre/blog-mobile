@@ -1,13 +1,13 @@
 <template>
-    <div>
+    <div class="page">
         <loading :show="showLoading"></loading>
-        <head-top>
+        <head-top fixed>
             <span slot="left" @click="$router.go(-1)">
                 <i class="fa fa-angle-left"></i>
             </span>
             <span slot="title">{{article.title}}</span>
         </head-top>
-        <div class="article">
+        <div class="page_content">	
             <div class="container">
                 <h1 class="title">{{article.title}}</h1>
                 <div class="article-info">
@@ -19,28 +19,32 @@
                 </div>
                 <div v-html="article.tagcontent"></div>
             </div>
+        	
+        	<div class="comment container">
+	            <ul class="comment-list">
+	                <li class="comment-item clearfix" v-for="(item,index) in commentList" :key="index">
+	                    <a href="" class="avatar">
+	                        <img src="//upload.jianshu.io/users/upload_avatars/4155179/d68e4975c4cf.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="">
+	                    </a>
+	                    <div class="comment-main">
+	                        <div class="comment-header">
+	                            <span class="username">admin</span>
+	                            <span class="fr"><i class="fa fa-thumbs-o-up"></i> {{item.likeNum}}</span>
+	                        </div>
+	                        <div class="comment-content">
+	                            {{item.content}}
+	                        </div>
+	                        <div class="comment-footer">
+	                            <span class="comment-time">{{item.create_time | fromNow}}</span>
+	                        </div>
+	                    </div>
+	                </li>
+	            </ul>
+	        </div>
         </div>
-        <div class="comment container">
-            <ul class="comment-list">
-                <li class="comment-item clearfix" v-for="(item,index) in commentList" :key="index">
-                    <a href="" class="avatar">
-                        <img src="//upload.jianshu.io/users/upload_avatars/4155179/d68e4975c4cf.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="">
-                    </a>
-                    <div class="comment-main">
-                        <div class="comment-header">
-                            <span class="username">admin</span>
-                            <span class="fr"><i class="fa fa-thumbs-o-up"></i> {{item.likeNum}}</span>
-                        </div>
-                        <div class="comment-content">
-                            {{item.content}}
-                        </div>
-                        <div class="comment-footer">
-                            <span class="comment-time">{{item.create_time | fromNow}}</span>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
+        
+       
+       
         <div class="reply">
             <div class="reply-input">
                 <input type="text" readonly placeholder="写评论">
@@ -58,7 +62,6 @@
                     <i class="fa fa-share"></i>
                 </span>
             </div>
-
         </div>
         <alert-tip :show='false'></alert-tip>
     </div>
@@ -68,7 +71,7 @@
 import headTop from '@/components/header/header'
 import alertTip from  '@/components/common/tips'
 import loading from '@/components/common/loading'
-import getData from '@/service/getData'
+import apiService from '@/service/api'
 
 export default{
     components:{
@@ -96,27 +99,27 @@ export default{
     },
     methods:{
         async getArticle(id){
-    		let res = await getData.getArticleDetail(id);
+    		let res = await apiService.getArticleDetail(id);
     		let data = res.data;
     		if(data.code == 1){
                 this.article = data.article;
             }
         },
         async getComments(id){
-        	let res = await getData.getComments(id);
+        	let res = await apiService.getComments(id);
         	let data = res.data;
             if(res.status == 200){
                 this.commentList=data.comments; 
             }
         },
         updatePv(id){
-            getData.updateArticlePv(id);
+            apiService.updateArticlePv(id);
         }
     }
 }
 </script>
 
-<style>
+<style scoped>
 .reply{
     display: flex;
     align-items: center;
@@ -166,8 +169,9 @@ export default{
     
 }
 
- .article{
-    padding-top: 40px;
+.article{
+    padding-top: 55px;
+    /*height: calc(100% - 55px);*/
 } 
 .article-info{
     margin-bottom: 20px;

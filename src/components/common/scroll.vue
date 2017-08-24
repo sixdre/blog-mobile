@@ -115,9 +115,6 @@ export default{
         },
         listenScroll(){				//监听滚动
           	this.scroll.on('scroll', (pos) => {
-          		console.log(pos)
-          		console.log(this.scroll.y)
-          		console.log(this.scroll.maxScrollY)
 //              if (pos.y > 50) {
 //              	this.topStatus = 'drop';
 //              	this.topText = this.topDropText;
@@ -147,7 +144,6 @@ export default{
 //              }
 //          })
             this.scroll.on('scrollEnd', () => {
-            	console.log(this.scroll.y)
                 // 滚动到底部
                 if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
                 	this.pullupMethod();

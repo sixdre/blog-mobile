@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import getData from '@/service/getData'
+import apiService from '@/service/api'
 
 export default {
 	props:{
