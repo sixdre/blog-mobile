@@ -1,6 +1,8 @@
 <template>
 	<div id="home" ref="home">
-		<header-search></header-search>
+		<div class="header_search">
+	        <input type="text" class="search_input" placeholder="搜索文章内容或作者">
+	    </div>
 		<scroll class="wrapper" ref="wrapper" :watchData="articleList" 
 			:pullup="pullup" :pullupMethod="loadMore" :allLoaded="nomore">
 			<Banner></Banner>
@@ -10,14 +12,10 @@
 			</div>
 			<article-list :articleList="articleList"></article-list>
 		</scroll>
-		<transition name="router-slid">
-			<router-view class="router-view"></router-view>
-		</transition>
 	</div>
 </template>
 
 <script>
-import headerSearch from '@/components/header'
 import Banner from '@/components/common/banner'
 import scroll from '@/components/common/scroll'
 import articleList from '@/components/articleList'
@@ -28,13 +26,11 @@ export default {
 	components: {
 		articleList,
 		categoryList,
-		headerSearch,
 		Banner,
 		scroll
 	},
 	data(){
 		return {
-			transitionName:'slide-left', //绑定在组件上面的动效class
 			articleList:[],
 			totalPage: 0,
 			page: 1,
@@ -62,7 +58,6 @@ export default {
 			}
 		},
 		loadMore() {
-			console.log(this.nomore)
 			this.page++;
 			if (this.page > this.totalPage) {
 				this.nomore = true;
@@ -75,14 +70,6 @@ export default {
 				 });
 			})
 		},
-	},
-	watch: {
-		'$route'(to, from) {
-			const toDepth = to.path.split('/').length
-			const fromDepth = from.path.split('/').length
-			 this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
-			console.log(this.transitionName)
-		}
 	}
 	
 
@@ -99,6 +86,32 @@ export default {
 	width: 100%;
 	overflow: hidden;
 }
+.header_search{
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    padding: 5px 10px;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+}
+.header_search .search_input {
+    width: 100%;
+    height: 30px;
+    margin: 0;
+    border-radius: 20px;
+    outline: none;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    background-color: #eee;
+    background-image: none;
+    border: 0;
+    text-align: center;
+    font-size: 14px;
+}
 
-
+.header_search .search_input::-webkit-input-placeholder {
+    color: #aaa;
+}
 </style>

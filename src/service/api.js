@@ -26,7 +26,7 @@ export default {
         return axios.get('/api/categories', { params: { skip: skip, limit: limit } });
     },
     getComments(id) {
-        return axios.get('/api/articles/' + id + '/comments');
+        return axios.get('/api/comments/' + id );
 
     }
 }

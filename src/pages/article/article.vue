@@ -1,13 +1,10 @@
 <template>
     <div class="page">
-        <loading :show="showLoading"></loading>
+        <loading v-show="showLoading"></loading>
         <head-top fixed>
-            <span slot="left" @click="$router.go(-1)">
-                <i class="fa fa-angle-left"></i>
-            </span>
             <span slot="title">{{article.title}}</span>
         </head-top>
-        <div class="page_content">	
+        <div class="page_content article_content">	
             <div class="container">
                 <h1 class="title">{{article.title}}</h1>
                 <div class="article-info">
@@ -47,7 +44,7 @@
        
         <div class="reply">
             <div class="reply-input">
-                <input type="text" readonly placeholder="写评论">
+                <input type="text" placeholder="写评论">
             </div>
             <div class="showTool">
                 <span>
@@ -63,6 +60,9 @@
                 </span>
             </div>
         </div>
+        
+       
+        
         <alert-tip :show='false'></alert-tip>
     </div>
 </template>
@@ -76,7 +76,7 @@ import apiService from '@/service/api'
 export default{
     components:{
         headTop,
-        'alert-tip':alertTip,
+        alertTip,
         loading
 	},
     data(){
@@ -109,6 +109,7 @@ export default{
         	let res = await apiService.getComments(id);
         	let data = res.data;
             if(res.status == 200){
+            	
                 this.commentList=data.comments; 
             }
         },
@@ -120,10 +121,13 @@ export default{
 </script>
 
 <style scoped>
+.article_content{
+	padding-bottom:45px;
+}
 .reply{
     display: flex;
     align-items: center;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     width:100%;

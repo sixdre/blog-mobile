@@ -1,31 +1,28 @@
-import path from 'path'
-import Vue from 'vue'
-import Router from 'vue-router'
+import App from '../App'
 import home from '@/pages/home/home'
 import article from '@/pages/article/article'
 
-Vue.use(Router)
-
-export default new Router({
-    linkActiveClass: 'active',
-    // mode: 'history',
-    // base: path.join(__dirname,'../../'),
-    // history: true,
-    routes: [{
-            path: '/',
+export default [{
+    path: '/',
+    component: App,         //顶层路由，对应index.html
+    children: [{
+            path: '',
+            redirect: '/home'
+        },
+        {
+            path: '/home',
             name: 'home',
             component: home,
-            children: [{
-                path: 'article/:articleId', //文章详情页
-                component: article,
-                meta: { keepAlive: false }
-            }], 
             meta: { keepAlive: true }
+        },
+        {
+           path: '/article/:articleId',
+           name: 'article',
+           component: article
         }
-        // {
-        //     path: '/article/:articleId',
-        //     name: 'article',
-        //     component: article
-        // }
     ]
-})
+
+
+
+}]
+

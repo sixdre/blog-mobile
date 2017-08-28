@@ -1,7 +1,10 @@
 <template>
     <header class="header" ref="header">
         <div class="header-button is-left">
-            <slot name="left"></slot>
+            <slot v-if="$slots.left" name="left"></slot>
+            <span v-else  @click="$router.go(-1)">
+                <i class="fa fa-angle-left"></i>
+            </span> 
         </div>
         <h1 class="header-title">
             <slot name="title"></slot>
