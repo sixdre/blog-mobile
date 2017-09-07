@@ -5,7 +5,7 @@ export default {
      * 获取文章列表
      */
     getArticles(page = 1, limit = 5) {
-        return axios.get('/api/articles', { params: { currentPage: page, limit: limit } });
+        return axios.get('/api/articles', { params: { page, limit } });
     },
     /**
      * 获取文章详情
