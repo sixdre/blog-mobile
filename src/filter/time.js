@@ -38,7 +38,7 @@ Vue.filter('fromNow', function(time, formatString,onlyDate) {
 		return((stamp / 1000 / 60) | 0) + '分钟前';
 	} else if(stamp < 0) {
 		return '未来';
-	} else {		//3分钟以内为：刚刚
+	} else {						//3分钟以内为：刚刚
 		return '刚刚';
 	}
 

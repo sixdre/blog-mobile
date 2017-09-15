@@ -25,6 +25,9 @@ export default {
     getCategories(skip = 0, limit = 7) {
         return axios.get('/api/categories', { params: { skip: skip, limit: limit } });
     },
+    /*
+     * 获取文章评论
+     * */
     getComments(id) {
         return axios.get('/api/comments/article/' + id );
 
