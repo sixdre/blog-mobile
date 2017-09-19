@@ -1,6 +1,7 @@
 import App from '../App'
-import home from '@/pages/home/home'
-import article from '@/pages/article/article'
+import Home from '@/pages/home/home'
+import Login from '@/pages/login/login'
+import Article from '@/pages/article/article'
 
 export default [{
     path: '/',
@@ -10,15 +11,20 @@ export default [{
             redirect: '/home'
         },
         {
+            path: '/login',
+            name: 'login',
+            component: Login
+        },
+        {
             path: '/home',
             name: 'home',
-            component: home,
+            component: Home,
             meta: { keepAlive: true }
         },
         {
            path: '/article/:articleId',
            name: 'article',
-           component: article
+           component: Article
         }
     ]
 

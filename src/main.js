@@ -1,6 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import MuseUI from 'muse-ui'
 import VueRouter from 'vue-router'
 import moment from 'moment'
 import FastClick from 'fastclick'
@@ -10,6 +11,7 @@ import './filter/time'
 
 
 Vue.use(VueRouter)
+Vue.use(MuseUI)
 
 VueRouter.prototype.go = function () {
   this.isBack = true

@@ -14,7 +14,7 @@
                     </router-link>
                     <span class="label">作者</span>
                 </div>
-                <div v-html="article.tagcontent"></div>
+                <div v-html="article.content"></div>
             </div>
         	
         	<div class="comment container">
